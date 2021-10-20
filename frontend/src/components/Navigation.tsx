@@ -10,6 +10,7 @@ const Navigation = () => (
         <Nav className="me-auto">
             <Nav.Link to="/" as={Link}>Home</Nav.Link>
             <Nav.Link to="/settings" as={Link}>Settings</Nav.Link>
+            <Nav.Link to="/users" as={Link}>Users</Nav.Link>
             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
             <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
             <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
