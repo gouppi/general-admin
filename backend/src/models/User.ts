@@ -5,7 +5,11 @@ interface UserType {
     username: string,
     email: string,
     password?: string,
-    salt?: string
+}
+
+interface UserLoginType {
+    email: string,
+    password: string
 }
 
 const userSchema = new Schema<UserType>({
@@ -21,16 +25,12 @@ const userSchema = new Schema<UserType>({
         type: String,
         required: true
     },
-    salt: {
-        type: String,
-        required: true
-    },
 }, {timestamps: true});
 
 const User = model<UserType>("User", userSchema);
 
 export default User;
-export type {UserType};
+export type {UserType, UserLoginType};
 
 
 
