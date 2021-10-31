@@ -8,10 +8,17 @@ interface UserType {
     updatedAt: Date
 }
 
+interface UserTypeLogin {
+    password: string;
+    email: string;
+    rememberMe: boolean;
+}
+
 interface UserTypePost {
-    username: string,
+    username?: string,
     password: string,
-    email: string
+    password2?: string;
+    email: string,
 };
 
-export type {UserType, UserTypePost};
+export type {UserType,UserTypeLogin, UserTypePost};

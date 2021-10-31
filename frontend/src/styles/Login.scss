@@ -1,0 +1,19 @@
+.login, .image {
+  min-height: 100vh;
+  text-align: left;
+}
+
+// .text-align-left {
+  
+// }
+
+.bg-image {
+  background-image: url("/images/bg.jpg");
+  background-size: cover;
+  background-position: center center
+}
+
+.form-login {
+  max-width: 500px;
+  width: 100%;
+}

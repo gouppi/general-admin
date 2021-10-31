@@ -4,4 +4,5 @@ export default interface Result {
     field?: string;
     statusCode: number;
     data?: any;
+    errors?: any;
 }

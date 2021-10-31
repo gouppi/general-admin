@@ -12,18 +12,9 @@ import {Status} from '../models/Status';
  */
 export const createUser = async (user : UserType) : Promise<Result> => {
 
-    if (await User.findOne({username: user.username})) {
-        return {message:"Username already taken", success:false, field: "username", statusCode: Status.FORBIDDEN}
-
-    }
-    if (await User.findOne({email:user.email})) {
-        return {message:"Email already taken", success:false, field: "email", statusCode: Status.FORBIDDEN}
-    }
-
     user.password = await bcrypt.hash(user.password, 10);
 
     const dbUser = new User({
-        username: user.username.toLowerCase(),
         email: user.email.toLowerCase(),
         password: user.password,
     });
@@ -67,33 +58,10 @@ export const deleteUser = async (userId:string) : Promise<Result> => {
  */
 export const loginUser = async (user:UserLoginType) : Promise<Result> => {
     const dbUser = await User.findOne({email: user.email});
-    if (! dbUser) {
-        return {
-            message: "Invalid email or password",
-            data: {
-                field: "email"
-            },
-            success: false,
-            statusCode: Status.BAD_REQUEST
-        }
-    }
-
-    if (! await bcrypt.compare(user.password, dbUser.password)) {
-        return {
-            message:"Invalid username or password",
-            data: {
-                field: "email"
-            },
-            success: false,
-            statusCode: 400
-        }
-    }
-
-    const payload = {
-        id: dbUser._id,
-        email: dbUser.email
-    }
-    const resultti = jsonwebtoken.sign(payload,"MAKSAMAKKARA",{expiresIn:600});
+    const payload = {id: dbUser._id, email:  dbUser.email};
+    // If user enables "remember Me" - functionality, remember token for 7 days.
+    const expiryTime = user.rememberMe ? "7d" : "20s";
+    const resultti = jsonwebtoken.sign(payload,"MAKSAMAKKARA",{expiresIn:expiryTime});
     if (!resultti) {
         return {
             message: "Error",

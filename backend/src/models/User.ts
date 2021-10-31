@@ -2,21 +2,17 @@ import {Schema, model} from 'mongoose';
 
 interface UserType {
     _id?: string,
-    username: string,
     email: string,
     password?: string,
 }
 
 interface UserLoginType {
     email: string,
-    password: string
+    password: string,
+    rememberMe: boolean
 }
 
 const userSchema = new Schema<UserType>({
-    username: {
-        type: String,
-        required: true
-    },
     email: {
         type: String,
         required: true

@@ -1,0 +1,24 @@
+.loading {
+    position:absolute;
+    top:0;
+    left:0;
+    bottom:0;
+    right:0;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease-in;
+    background-color: white;
+    opacity: 1;
+    z-index: 999;
+    &__spinner {
+        height: 100%;
+        justify-content: center;
+    }
+
+    &--done {
+        opacity: 0;
+        pointer-events: none;
+    }
+}

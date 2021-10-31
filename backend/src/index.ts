@@ -1,10 +1,12 @@
-import express from 'express'
+import express, { Request, Response } from 'express'
 import mongoose from 'mongoose';
-
 import {createUser, deleteUser, getUsers, loginUser} from './controllers/User';
-// import { UserType } from './models/User';
 import Result from './models/Result';
 import verifyJWT from './middleware/authentication';
+import validateErrors from './middleware/validation';
+
+import { checkSchema } from 'express-validator';
+import { loginSchema, registerSchema } from './validation/schema';
 
 const port = 8080; // default port to listen
 const app = express();
@@ -17,7 +19,8 @@ const dbUrl = "mongodb://DonaldDuck:ScroogeMcDuck@127.0.0.1:27017/users"
 mongoose.connect(dbUrl, {ssl:false, authSource:"admin", directConnection:true, readPreference:"primary" }).then(() => {
     app.listen(port, () => console.log("Server is Live"))
 
-    app.post("/register", async(req,res) => {
+    app.post("/register", checkSchema(registerSchema), validateErrors, async(req:Request,res:Response) => {
+
         const result : Result = await createUser(req.body);
         res.status(result.statusCode).send(result);
     });
@@ -42,10 +45,12 @@ mongoose.connect(dbUrl, {ssl:false, authSource:"admin", directConnection:true, r
         res.status(result.statusCode).send(result);
     })
 
-    app.post("/login", async(req,res) => {
+    app.post("/login", checkSchema(loginSchema), validateErrors, async(req: Request,res: Response) => {
+        console.log("IT NEVER COMES HERE");
         const result: Result = await loginUser(req.body);
         res.status(result.statusCode).send(result);
     })
+
 })
 .catch(err => console.log(err));
 
